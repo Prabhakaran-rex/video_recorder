@@ -1,5 +1,4 @@
 window.onload = function() {
-	alert('test..........');
    //Params
    var scriptPram = document.getElementById('load_widget');
    var id = scriptPram.getAttribute('data-page');
