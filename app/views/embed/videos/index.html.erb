@@ -9,7 +9,7 @@
 	<a id="downloadLink" download="mediarecorder.webm" name="mediarecorder.webm" href></a>
 	<p id="data" class="hide"></p>
 	<p class="social_media"></p>
-	<%= form_for Video.new, url: videos_path, remote: true, method: :post do |f|%>
+	<%= form_for Video.new, url: embed_videos_path, remote: true, method: :post do |f|%>
 	<%end%>
 </div>
 <script type="text/javascript">
@@ -112,7 +112,7 @@
       // oReq.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
       // oReq.send(data);
    		$.ajax({
-				url: '/embed/videos',
+   			url: '/embed/videos',
    			type: 'post',
    			data : data,
    			dataType: 'script',
