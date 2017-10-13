@@ -1,16 +1,20 @@
-<div id="container">
+<div class="col-md-12">
 	<div style = "text-align:center;">
-		<h1>Media Recorder </h1>
+		<h2>Media Recorder </h2>
 		<video controls autoplay></video><br>
-		<button id="rec" onclick="onBtnRecordClicked()">Record</button>
-		<button id="pauseRes"   onclick="onPauseResumeClicked()" disabled>Pause</button>
-		<button id="stop"  onclick="onBtnStopClicked()" disabled>Stop</button>
+		<button class="btn btn-danger btn-sm" id="rec" onclick="onBtnRecordClicked()">Record</button>
+		<button class="btn btn-default btn-sm" id="pauseRes"   onclick="onPauseResumeClicked()" disabled>Pause</button>
+		<button class="btn btn-primary btn-sm" id="stop"  onclick="onBtnStopClicked()" disabled>Stop</button>
 	 </div>
-	<a id="downloadLink" download="mediarecorder.webm" name="mediarecorder.webm" href></a>
-	<p id="data" class="hide"></p>
-	<p class="social_media"></p>
-	<%= form_for Video.new, url: videos_path, remote: true, method: :post do |f|%>
-	<%end%>
+	<div class="col-md-12">
+		<p>
+			<span class="col-md-2 pull-right"><a class="btn btn-default btn-sm"  id="downloadLink" download="mediarecorder.webm" name="mediarecorder.webm" href style="display:none;"></a></span>
+			<span class="col-md-8 social_media"></span>
+			<span id="data" class="hide"></span>
+			<%= form_for Video.new, url: embed_videos_path, remote: true, method: :post do |f|%>
+			<%end%>
+		</p>
+	</div>
 </div>
 <script type="text/javascript">
 	'use strict';
@@ -92,6 +96,7 @@
 			console.log(blob);
 
 			var videoURL = window.URL.createObjectURL(blob);
+			downloadLink.style.display = 'block';
 			downloadLink.href = videoURL;
 			videoElement.src = videoURL;
 			downloadLink.innerHTML = 'Download video file';
@@ -112,7 +117,7 @@
       // oReq.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
       // oReq.send(data);
    		$.ajax({
-				url: '/embed/videos',
+   			url: '/videos',
    			type: 'post',
    			data : data,
    			dataType: 'script',

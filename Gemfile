@@ -59,3 +59,5 @@ gem 'streamio-ffmpeg'
 gem 'remotipart'
 
 gem 'rack-cors', :require => 'rack/cors'
+
+gem "twitter-bootstrap-rails"
