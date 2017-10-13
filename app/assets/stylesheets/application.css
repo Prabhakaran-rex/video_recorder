@@ -14,3 +14,16 @@
  *= require_self
  *= require bootstrap_and_overrides
  */
+
+.data-align{
+	padding: 1px 3px 2px 3px;
+	border-radius: 4px;
+}
+
+.iframe_css{
+  margin:auto;
+	display:block;
+  width: 690px;
+  height: 400px;
+  box-shadow:1px 0px 16px 3px #888888;
+}

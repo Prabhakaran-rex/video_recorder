@@ -5,12 +5,16 @@
 		<button class="btn btn-danger btn-sm" id="rec" onclick="onBtnRecordClicked()">Record</button>
 		<button class="btn btn-default btn-sm" id="pauseRes"   onclick="onPauseResumeClicked()" disabled>Pause</button>
 		<button class="btn btn-primary btn-sm" id="stop"  onclick="onBtnStopClicked()" disabled>Stop</button>
+		<p>
+			<span id="data" class="data-align"></span>
+			<span id="current"></span>
+			<span id="duration"></span>
+		</p>
 	 </div>
 	<div class="col-md-12">
 		<p>
 			<span class="col-md-2 pull-right"><a class="btn btn-default btn-sm"  id="downloadLink" download="mediarecorder.webm" name="mediarecorder.webm" href style="display:none;"></a></span>
 			<span class="col-md-8 social_media"></span>
-			<span id="data" class="hide"></span>
 			<%= form_for Video.new, url: embed_videos_path, remote: true, method: :post do |f|%>
 			<%end%>
 		</p>
@@ -21,7 +25,7 @@
 
 	navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
-	$('#data').hide();
+	// $('#data').hide();
 	if(getBrowser() == "Chrome"){
 		var constraints = {"audio": true, "video": {  "mandatory": {  "minWidth": 640,  "maxWidth": 640, "minHeight": 480,"maxHeight": 480 }, "optional": [] } };//Chrome
 	}else if(getBrowser() == "Firefox"){
@@ -88,7 +92,6 @@
 
 		mediaRecorder.onstop = function(){
 			log('Stopped  & state = ' + mediaRecorder.state);
-
 			console.log("blob..............");
 			var blob = new Blob(chunks, {type: "video/webm"});
 			chunks = [];
@@ -128,6 +131,8 @@
 
 		mediaRecorder.onpause = function(){
 			log('Paused & state = ' + mediaRecorder.state);
+			console.log("mediaRecorder");
+			console.log(mediaRecorder);
 		}
 
 		mediaRecorder.onresume = function(){
@@ -140,7 +145,8 @@
 	}
 
 	function onBtnRecordClicked (){
-		 if (typeof MediaRecorder === 'undefined' || !navigator.getUserMedia) {
+		$("#current").show();
+		if (typeof MediaRecorder === 'undefined' || !navigator.getUserMedia) {
 			alert('MediaRecorder not supported on your browser, use Firefox 30 or Chrome 49 instead.');
 		}else {
 			navigator.getUserMedia(constraints, startRecording, errorCallback);
@@ -151,6 +157,7 @@
 	}
 
 	function onBtnStopClicked(){
+		$("#current").hide();
 		mediaRecorder.stop();
 		videoElement.controls = true;
 
@@ -161,11 +168,13 @@
 
 	function onPauseResumeClicked(){
 		if(pauseResBtn.textContent === "Pause"){
+			$("#current").hide();
 			console.log("pause");
 			pauseResBtn.textContent = "Resume";
 			mediaRecorder.pause();
 			stopBtn.disabled = true;
 		}else{
+			$("#current").show();
 			console.log("resume");
 			pauseResBtn.textContent = "Pause";
 			mediaRecorder.resume();
@@ -177,7 +186,10 @@
 
 
 	function log(message){
-		dataElement.innerHTML = dataElement.innerHTML+'<br>'+message ;
+		// dataElement.innerHTML+'<br>'+
+		$('#data').addClass('bg-primary');
+		console.log(dataElement);
+		dataElement.innerHTML = message ;
 	}
 
 
@@ -244,6 +256,16 @@
 
 
 		return browserName;
+	}
+
+	$(document).ready(function(){
+		$("video").on("timeupdate", function(event){
+	    onTrackedVideoFrame(this.currentTime, this.duration);
+	  });
+	});
+
+	function onTrackedVideoFrame(currentTime, duration){
+	  $("#current").text("Record time :"+(parseFloat(currentTime)/100).toFixed(2));
 	}
 
 </script>
