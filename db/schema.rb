@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 20171011134632) do
 
-  create_table "videos", force: :cascade do |t|
+  create_table "videos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "file"
     t.integer "user_id"
     t.datetime "created_at", null: false
