@@ -1,4 +1,29 @@
-<b>Share link :</b>
-<%= link_to 'twitter', "http://twitter.com/share?text=Test share video&url=http://localhost:3000#{@video.file_url}&hashtags=share_videos", target: '_blank',class: "btn btn-sm btn-primary" %>
+<span><b>Share link :</b></span>
+<span id="share-buttons">
+	<%= link_to "http://twitter.com/share?text=Test share video&url=http://localhost:3000#{@video.file_url}&hashtags=share_videos", target: '_blank' do %>
+		<img src="assets/twitter.png" alt="Twitter" />
+	<%end%>
 
-<a href="https://plus.google.com/share?url=http://localhost:3000<%=@video.file_url %>" class="btn btn-danger btn-sm" target="_blank">Google</a>
+	<a href="https://plus.google.com/share?url=http://localhost:3000<%=@video.file_url %>" target="_blank">
+		<img src="assets/google.png" alt="Google" />
+	</a>
+
+
+	<a href="http://www.facebook.com/sharer.php?u=http://localhost:3000<%=@video.file_url %>" target="_blank">
+		<img src="assets/facebook.png" alt="Facebook" />
+	</a>
+
+	<a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=http://localhost:3000<%=@video.file_url %>" target="_blank">
+		<img src="assets/linkedin.png" alt="LinkedIn" />
+  </a>
+
+   <a href="http://www.tumblr.com/share/link?url=http://localhost:3000<%=@video.file_url %>&amp;title=Simple Share Buttons" target="_blank" class="hide">
+    <img src="https://simplesharebuttons.com/images/somacro/tumblr.png" alt="Tumblr" />
+  </a>
+
+  <a href="mailto:?Subject=Simple Share Buttons&amp;Body=video%20share%20
+  %20and%20thought%20of%20you!%20 http://localhost:3000<%=@video.file_url %>" class="hide">
+		<img src="https://simplesharebuttons.com/images/somacro/email.png" alt="Email" />
+  </a>
+
+</span>
