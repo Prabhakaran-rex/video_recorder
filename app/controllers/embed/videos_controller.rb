@@ -1,6 +1,7 @@
 class Embed::VideosController < ApplicationController
   before_action :allow_iframe_requests
 	def index
+    @video = Video.find_by(id: params[:video_id])
 	end
 
 	def create

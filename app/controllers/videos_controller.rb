@@ -1,5 +1,6 @@
 class VideosController < ApplicationController
 	def index
+    @video = Video.find_by(id: params[:video_id])
 	end
 
 	def create

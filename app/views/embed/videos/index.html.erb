@@ -1,7 +1,7 @@
 <div class="col-md-12">
 	<div style = "text-align:center;">
 		<h2>Media Recorder </h2>
-		<video controls autoplay></video><br>
+		<video controls autoplay src="<%= @video.try(:file_url) %>"></video><br>
 		<button class="btn btn-danger btn-sm" id="rec" onclick="onBtnRecordClicked()">Record</button>
 		<button class="btn btn-default btn-sm" id="pauseRes"   onclick="onPauseResumeClicked()" disabled>Pause</button>
 		<button class="btn btn-primary btn-sm" id="stop"  onclick="onBtnStopClicked()" disabled>Stop</button>
@@ -13,8 +13,12 @@
 	 </div>
 	<div class="col-md-12">
 		<p>
-			<span class="col-md-2 pull-right"><a class="btn btn-default btn-sm"  id="downloadLink" download="mediarecorder.webm" name="mediarecorder.webm" href style="display:none;"></a></span>
-			<span class="col-md-8 social_media"></span>
+			<span class="col-md-2 pull-right"><a class="btn btn-default btn-sm"  id="downloadLink" download="mediarecorder.webm" name="mediarecorder.webm" href="<%= @video.try(:file_url) %>" style="display:<%= @video.present? ? 'block' : 'none' %>;">Download</a></span>
+			<% if @video.present? %>
+				<span class="col-md-8 social_media">
+					<%= render "embed/videos/shared_links" %>
+				</span>
+			<%end%>
 			<%= form_for Video.new, url: embed_videos_path, remote: true, method: :post do |f|%>
 			<%end%>
 		</p>
@@ -40,7 +44,7 @@
 	var dataElement = document.querySelector('#data');
 	var downloadLink = document.querySelector('a#downloadLink');
 
-	videoElement.controls = false;
+	videoElement.controls = true;
 
 	function errorCallback(error){
 		console.log('navigator.getUserMedia error: ', error);	
@@ -67,6 +71,10 @@
 			log('isTypeSupported is not supported, using default codecs for browser');
 			mediaRecorder = new MediaRecorder(stream);
 		}
+
+		videoElement.src = "";
+		videoElement.currentTime = 0;
+		videoElement.load();
 
 		pauseResBtn.textContent = "Pause";
 
@@ -172,11 +180,13 @@
 			console.log("pause");
 			pauseResBtn.textContent = "Resume";
 			mediaRecorder.pause();
+			videoElement.pause();
 			stopBtn.disabled = true;
 		}else{
 			$("#current").show();
 			console.log("resume");
 			pauseResBtn.textContent = "Pause";
+			videoElement.play();
 			mediaRecorder.resume();
 			stopBtn.disabled = false;
 		}

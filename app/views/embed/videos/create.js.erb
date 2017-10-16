@@ -1,1 +1,2 @@
 $('.social_media').html("<%= escape_javascript(render 'embed/videos/shared_links') %>");
+window.location.assign("<%= root_path(video_id: @video.id) %>")
